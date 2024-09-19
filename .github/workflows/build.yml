@@ -1,5 +1,7 @@
 name: Build LaTeX document
+
 on: [push]
+
 jobs:
   build_latex:
     runs-on: ubuntu-latest
@@ -10,7 +12,7 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: cv.tex
-          compiler: xelatex
+          latexmk_use_lualatex: true
       - name: Upload PDF
         uses: actions/upload-artifact@v4
         with:
