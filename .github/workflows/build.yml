@@ -5,12 +5,14 @@ on: [push]
 jobs:
   build_latex:
     runs-on: ubuntu-latest
-    container: aergus/latex:latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
       - name: Build PDF
-        run: xelatex cv.tex
+        uses: docker://ghcr.io/qjoly/xelatex:latest
+        with:
+          args: |
+            cv.tex
       - name: Upload PDF
         uses: actions/upload-artifact@v4
         with:
