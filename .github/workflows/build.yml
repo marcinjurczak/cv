@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build_latex:
     runs-on: ubuntu-latest
-    container: texlive/texlive:latest
+    container: moss/xelatex:latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
