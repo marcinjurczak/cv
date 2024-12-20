@@ -127,6 +127,7 @@
 \definecolor{darkgray}{HTML}{333333}
 \definecolor{gray}{HTML}{5D5D5D}
 \definecolor{lightgray}{HTML}{999999}
+\definecolor{lightlightgray}{gray}{0.95}
 % Basic colors
 \definecolor{green}{HTML}{C2E15F}
 \definecolor{orange}{HTML}{FDA333}
@@ -187,7 +188,7 @@
 
 % For elements of entry
 \newcommand*{\entrytitlestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
-\newcommand*{\entrypositionstyle}[1]{{\fontsize{8pt}{1em}\bodyfont\scshape\color{graytext} #1}}
+\newcommand*{\entrypositionstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\scshape\color{graytext} #1}}
 \newcommand*{\entrydatestyle}[1]{{\fontsize{8pt}{1em}\bodyfontlight\slshape\color{graytext} #1}}
 \newcommand*{\entrylocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{awesome} #1}}
 \newcommand*{\descriptionstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{text} #1}}
@@ -208,6 +209,7 @@
 
 % For elements of skill
 \newcommand*{\skilltypestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
+\newcommand*{\skillstarstyle}[1]{{\fontsize{6pt}{1em}\bodyfont\bfseries\color{lightlightgray} #1}}
 \newcommand*{\skillsetstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\color{text} #1}}
 
 % For elements of the cover letter
@@ -737,6 +739,49 @@
 \newcommand*{\cvskill}[2]{%
 	\skilltypestyle{#1} & \skillsetstyle{#2} \\
 }
+
+% Define an environment for cvskilltriple to put 3 skills into 1 line
+\newenvironment{cvskillstriple}{%
+  \begin{center}
+    \setlength\tabcolsep{1mm}
+    \setlength{\extrarowheight}{-1pt}
+    \begin{tabular*}{\textwidth}{R{2.5cm} R{1.6cm} L{3.1cm} R{1.6cm} L{3.1cm} R{1.6 cm} L{3.1cm}}
+}{%
+    \end{tabular*}
+  \end{center}
+}
+
+% Define a line of with 3 skills on 1 line
+% Usage: \cvskilltriple{<type>}{<level>}{<skillset>}{<level>}{<skillset>}{<level>}{<skillset>}
+\newcommand*{\cvskilltriple}[7]{%
+    \skilltypestyle{#1} & \skillstarstyle{#2} & \skillsetstyle{#3} & \skillstarstyle{#4} & \skillsetstyle{#5} & \skillstarstyle{#6} & \skillsetstyle{#7} \\
+}
+
+% Formatting of skill level circle
+\def\emptycolor{lightlightgray}
+\def\fullcolor{awesome}
+\newcommand{\lc}{\tikz\draw[\emptycolor,fill=\emptycolor] (0,0) circle (.8ex); }
+\newcommand{\dc}{\tikz\draw[\fullcolor,fill=\fullcolor] (0,0) circle (.8ex); }
+
+\def\Angle{0}
+\newcommand{\hc}[1][0]{%
+    \begin{tikzpicture}[baseline=-.8ex,\emptycolor]
+            \draw[clip,fill] (0,0) circle (.8ex);
+            \draw[\fullcolor,fill=\fullcolor,rotate=\Angle] (0,0) -- (0,.8ex) arc (90:270:.8ex) -- cycle;
+    \end{tikzpicture} %
+}
+
+% Define level (skill = <num>/2)
+\newcommand{\1}{\hc\lc\lc\lc\lc}
+\newcommand{\2}{\dc\lc\lc\lc\lc}
+\newcommand{\3}{\dc\hc\lc\lc\lc}
+\newcommand{\4}{\dc\dc\lc\lc\lc}
+\newcommand{\5}{\dc\dc\hc\lc\lc}
+\newcommand{\6}{\dc\dc\dc\lc\lc}
+\newcommand{\7}{\dc\dc\dc\hc\lc}
+\newcommand{\8}{\dc\dc\dc\dc\lc}
+\newcommand{\9}{\dc\dc\dc\dc\hc}
+\newcommand{\0}{\dc\dc\dc\dc\dc}
 
 % Define an environment for cvitems(for cventry)
 \newenvironment{cvitems}{%
