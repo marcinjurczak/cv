@@ -28,3 +28,4 @@ jobs:
       with:
         name: cv
         path: cv.pdf
+        archive: false
