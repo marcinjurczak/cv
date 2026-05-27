@@ -1,20 +1,30 @@
-name: Build LaTeX document
+name: Compile PDF
 
-on: [push]
+on:
+  push: {}
+  pull_request: {}
 
 jobs:
-  build_latex:
+  build:
     runs-on: ubuntu-latest
+    container: texlive/texlive:latest
+
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-      - name: Build PDF
-        uses: docker://ghcr.io/qjoly/xelatex:latest
-        with:
-          args: |
-            cv.tex
-      - name: Upload PDF
-        uses: actions/upload-artifact@v4
-        with:
-          name: cv
-          path: cv.pdf
+    - name: Checkout repo
+      uses: actions/checkout@v6
+
+    - name: Install fonts
+      run: |
+        apt update
+        apt install --yes \
+          fonts-roboto \
+          fonts-adobe-sourcesans3 \
+          ;
+
+    - name: Compile
+      run: make
+
+    - uses: actions/upload-artifact@v6
+      with:
+        name: cv
+        path: cv.pdf
